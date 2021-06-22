@@ -1,0 +1,65 @@
+﻿@model Lavacar.Presentacion.Models.VehiculoVM
+
+@{
+    ViewData["Title"] = "Agregar Vehículo";
+}
+
+<h1>Agregar Vehículo</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" id="idForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Placa" class="control-label"></label>
+                <input asp-for="Placa" class="form-control" />
+                <span asp-validation-for="Placa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dueno" class="control-label"></label>
+                <input asp-for="Dueno" class="form-control" />
+                <span asp-validation-for="Dueno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Marca" class="control-label"></label>
+                <input asp-for="Marca" class="form-control" />
+                <span asp-validation-for="Marca" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ListaServicios" class="control-label"></label>
+                <select asp-for="ListaServicios" asp-items="@Enumerable.Empty<SelectListItem>()" class="form-control" multiple="multiple" id="Select">
+                </select>
+                <span asp-validation-for="ListaServicios" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" id="btnAgregar" class="btn btn-info"><span class="fas fa-check"></span> Agregar</button>
+                <a asp-action="ListaDeVehiculos" class="btn btn-danger"><span class="fas fa-times-circle"></span> Cancelar</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        const UrlAgregar = "/Vehiculos/AgregarVehiculo/";
+        const urlRedirect = "/Vehiculos/ListaDeVehiculos/";
+
+        
+
+        $(document).on("click", "#btnAgregar", function (e) {
+            e.preventDefault();
+
+            var formulario = $(IdForm);
+
+            Validar(formulario);
+            Cargando();
+            Solicitud(UrlAgregar, urlRedirect);
+        });
+
+    </script>
+
+}

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Lavacar.Entidades.Vehiculo>
+
+@{
+    ViewData["Title"] = "Lista de vehículos por servicio";
+}
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 text-center">
+        <h2 class="m-0 font-weight-bold text-secondary"><samp>Lista de vehículos en @ViewBag.Servicio</samp></h2>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="DataTableGeneral" class="table table-striped table-bordered table-borderless">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Placa)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Dueno)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Marca)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Placa)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Dueno)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Marca)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="ListaDeServicios" class="btn btn-info">  <span class="fas fa-arrow-left"></span> Volver a servicios </a>
+</div>

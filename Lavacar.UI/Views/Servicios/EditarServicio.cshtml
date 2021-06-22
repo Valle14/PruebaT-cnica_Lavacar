@@ -1,0 +1,51 @@
+﻿@model Lavacar.Entidades.Servicio
+
+@{
+    ViewData["Title"] = "Editar Servicio";
+}
+
+<h1>Editar Servicio</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" id="idForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="IdServicio" hidden="hidden" />
+            <div class="form-group">
+                <label asp-for="Monto" class="control-label"></label>
+                <input asp-for="Monto" class="form-control" />
+                <span asp-validation-for="Monto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descripcion" class="control-label"></label>
+                <input asp-for="Descripcion" class="form-control" />
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" id="btnEditar" class="btn btn-info"><span class="fas fa-check"></span> Editar</button>
+                <a asp-action="ListaDeServicios" class="btn btn-danger"><span class="fas fa-times-circle"></span> Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        const UrlEditar = "/Servicios/EditarServicio/";
+        const urlRedirect = "/Servicios/ListaDeServicios/";
+
+        $(document).on("click", "#btnEditar", function (e) {
+            e.preventDefault();
+
+            var formulario = $(IdForm);
+
+            Validar(formulario);
+            Solicitud(UrlEditar, urlRedirect);
+        });
+
+    </script>
+
+}

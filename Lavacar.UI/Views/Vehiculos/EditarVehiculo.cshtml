@@ -1,0 +1,78 @@
+﻿@model Lavacar.Presentacion.Models.VehiculoVM
+
+@{
+    ViewData["Title"] = "Editar Vehículo";
+}
+
+<h1>Editar Vehículo</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" id="idForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="IdVehiculo" hidden="hidden" />
+            <div class="form-group">
+                <label asp-for="Placa" class="control-label"></label>
+                <input asp-for="Placa" class="form-control" />
+                <span asp-validation-for="Placa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dueno" class="control-label"></label>
+                <input asp-for="Dueno" class="form-control" />
+                <span asp-validation-for="Dueno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Marca" class="control-label"></label>
+                <input asp-for="Marca" class="form-control" />
+                <span asp-validation-for="Marca" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ListaServicios" class="control-label"></label>
+                <select asp-for="ListaServicios" asp-items="@Enumerable.Empty<SelectListItem>()" class="form-control" multiple="multiple" id="Select">
+                </select>
+                <span asp-validation-for="ListaServicios" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" id="btnEditar" class="btn btn-info"><span class="fas fa-check"></span> Editar</button>
+                <a asp-action="ListaDeVehiculos" class="btn btn-danger"><span class="fas fa-times-circle"></span> Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+        const UrlEditar = "/Vehiculos/EditarVehiculo/";
+        const UrlObtenerIdServicios = "/Vehiculos/ObtenerIdServiciosDeVehiculo/";
+        const urlRedirect = "/Vehiculos/ListaDeVehiculos/";
+
+        $(document).ready(function () {
+            
+            url = UrlObtenerIdServicios + $('#IdVehiculo').val();
+            console.log(url);
+            Get(url).then(function (listaIdServicios) {
+
+                let ListaIdServicios = listaIdServicios;
+                console.log(ListaIdServicios);
+
+                $("#Select").val(ListaIdServicios);
+                $("#Select").selectpicker('render');
+
+            }).catch(() => ErrorDeConexion());
+
+        });
+        
+        $(document).on("click", "#btnEditar", function (e) {
+            e.preventDefault();
+
+            var formulario = $(IdForm);
+
+            Validar(formulario);
+            Solicitud(UrlEditar, urlRedirect);
+        });
+</script>
+
+}

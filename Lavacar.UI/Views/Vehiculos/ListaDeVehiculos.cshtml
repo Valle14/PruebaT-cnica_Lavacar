@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Lavacar.Entidades.Vehiculo>
+
+@{
+    ViewData["Title"] = "Lista de Vehículos";
+}
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 text-center">
+        <h2 class="m-0 font-weight-light text-secondary"><samp>Lista de Vehículos</samp></h2>
+    </div>
+    <div class="card-body">
+        <div class="mb-3 mx-1">
+            <a asp-action="AgregarVehiculo" class="btn btn-info btn-circle btn-lg">
+                <span class="fas fa-plus-square"></span>
+            </a>
+        </div>
+        <input id="Mensaje" hidden="hidden" value="@ViewBag.Mensaje" />
+        <div class="table-responsive">
+            <table id="DataTableGeneral" class="table table-striped table-bordered table-borderless">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Placa)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Dueno)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Marca)
+                        </th>
+                        <th>
+                            @Html.DisplayName("Acciones")
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Placa)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Dueno)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Marca)
+                            </td>
+                            <td>
+                                <a asp-action="EditarVehiculo" asp-route-id="@item.IdVehiculo">  <span class="far fa-edit"></span> Editar</a> |
+                                <a asp-action="EliminarVehiculo" data-id="@item.IdVehiculo" data-nombre="@item.Placa" class="btnEliminarVehiculo"> <span class="far fa-trash-alt"> </span> Eliminar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        const pronomMay = "El"; const pronomMin = "el";
+        const sujetoForm = "vehículo";
+        const UrlEliminar = "/Vehiculos/EliminarVehiculo/";
+        const urlRedirect = "/Vehiculos/ListaDeVehiculos/";
+        let mensaje = $('#Mensaje').val();
+
+        if (mensaje != null && mensaje != "") {
+            toastr.info(mensaje, "Atención");
+            mensaje = "";
+        }
+                       
+        $(document).on("click", ".btnEliminarVehiculo", function (e) {
+            e.preventDefault();
+
+            let datos = {
+                Id: $(this).data("id"),
+                Nombre: $(this).data("nombre"),
+                URL: UrlEliminar,
+                Sujeto: sujetoForm,
+                PronomMin: pronomMin,
+                PronomMay: pronomMay,
+                urlRedirect: urlRedirect
+            };
+
+            Eliminar(datos);
+        });
+
+    </script>
+
+}
